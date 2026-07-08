@@ -48,7 +48,8 @@ class TestCHSH:
 
 class TestPseudoTelepathy:
     @pytest.fixture(scope="class")
-    def ghz_bits(self):
+    @classmethod
+    def ghz_bits(cls):
         mermin = {(0, 0, 0): 0, (0, 1, 1): 1, (1, 0, 1): 1, (1, 1, 0): 1}
         return bits_from_predicate(
             3,

@@ -40,7 +40,8 @@ class TestSymmetryGroup:
 
 class TestTwoPartySweep:
     @pytest.fixture(scope="class")
-    def classes(self):
+    @classmethod
+    def classes(cls):
         return enumerate_two_party_classes()
 
     def test_partition_is_exact(self, classes):
