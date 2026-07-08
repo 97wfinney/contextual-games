@@ -15,9 +15,7 @@ dependencies = [
   "numpy",
   "scipy",
   "cvxpy",
-  "pandas",
-  "matplotlib",
-  "ncpol2sdpa"
+  "matplotlib"
 ]
 
 [project.optional-dependencies]
