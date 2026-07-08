@@ -2,11 +2,12 @@
 plot_noise.py -- Q3 figure: how success and contextual fraction decay
 with white noise, for two instructive classes:
 
-  left  -- CHSH: advantage and resource die together at 1 - 1/sqrt(2);
+  left  -- CHSH: advantage and resource die together, the two
+           thresholds coinciding;
   right -- the 3-party XOR class id 7595718147998062230: the resource
-           (CF > 0) survives to eta ~ 0.44 but the advantage is gone by
-           eta ~ 0.29 -- a noise band with contextuality but no
-           advantage for this game.
+           (CF > 0) outlives the advantage, opening a noise band with
+           contextuality but no advantage for this game. The exact
+           thresholds are strategy-dependent and vary between runs.
 
 Writes data/noise_sweeps.png.
 """
