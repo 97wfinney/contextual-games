@@ -1,0 +1,3 @@
+canonical_id,family,orbit,n_parties,omega_c,k,hardness,omega_ns,ns_gap,cf_ns_strategy
+26214,xor-2party,8,2,1.0,4,0.0,1.0,0.0,0.0
+26217,xor-2party,8,2,0.75,3,0.25,1.0,0.25,1.0
