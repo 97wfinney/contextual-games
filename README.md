@@ -1,124 +1,132 @@
 # Contextual Games
 
-Computational tools for studying contextuality, non-local games, and quantum advantage within the sheaf-theoretic framework developed by Abramsky and collaborators.
+**How much of quantum advantage is contextuality?** This repository
+contains the computational side of an MSc research project (UCL Quantum
+Technologies, supervised by Prof. Samson Abramsky) investigating that
+question for non-local games, in the sheaf-theoretic framework of
+Abramsky–Brandenburger and the contextual fraction of Abramsky, Barbosa
+and Mansfield (arXiv:1705.07918).
 
-## Project aim
+**The full write-up of methodology, findings, and open questions is in
+[`docs/overview.pdf`](docs/overview.pdf).** This README is the short
+version.
 
-This project builds a computational pipeline for small non-local games. The pipeline will compute:
+## The idea
 
-- the classical value by exhaustive search over deterministic strategies;
-- the no-signalling value by linear programming;
-- the quantum value using semidefinite programming relaxations from the NPA hierarchy;
-- the contextual fraction of empirical models using linear programming.
+A non-local game asks separated players, who cannot communicate, to
+produce coordinated answers to a referee's questions. A strategy is a
+table of outcome probabilities, one distribution per question context,
+and the framework grades such tables by their **contextual fraction
+CF**: the proportion of the behaviour that admits no classical
+(pre-assigned-value) explanation. CF is computable by linear
+programming, its dual yields the maximally violated Bell inequality as
+a witness, and every behaviour splits into a classical part and a
+strongly contextual part, e = NCF·e^NC + CF·e^SC.
 
-The goal is to catalogue small games and analyse the relationship between contextuality, quantum advantage, game hardness, and noise robustness.
+Each game then has three values, over three nested sets of strategies:
 
-## Current status
+- **ω_c** — the best classical (pre-agreed) strategy, by exhaustive
+  search;
+- **ω_q** — the best quantum (entanglement-assisted) strategy,
+  *certified* by sandwiching between semidefinite-programming upper
+  bounds and explicit qubit strategies as lower bounds;
+- **ω_ns** — the best strategy any relativity-respecting theory could
+  offer, by linear programming over the no-signalling polytope.
 
-Phase 0: infrastructure and validation.
+The project enumerates **every** small game up to relabelling symmetry
+(a game is just a win/lose grid, hence an integer; symmetries are cell
+permutations; a family's name is the smallest integer in its orbit)
+and solves the whole landscape at all three levels.
 
-Currently implemented:
+## What it has found so far
 
-- measurement scenarios;
-- global assignments and local assignments;
-- incidence matrix construction;
-- empirical models;
-- contextual fraction linear programme;
-- dual Bell inequality extraction;
-- quantum empirical models for binary-outcome projective measurements;
-- validation script for known examples.
+- **All 65,536 two-party binary games collapse to 805 families.** Only
+  9 admit any advantage beyond classical at all; CHSH is the unique
+  maximal case. Post-classical structure is rare, and the textbook
+  game is the summit of the landscape.
+- **A game quantum mechanics declines to play.** One three-party XOR
+  family has the maximal possible no-signalling gap (ω_c = 3/4,
+  ω_ns = 1) and certified ω_q = 3/4 exactly: no-signalling advantage
+  does not imply quantum advantage.
+- **Pseudo-telepathy needs unasked questions.** No fully-constrained
+  three-party XOR game admits a perfect quantum strategy; the GHZ
+  perfect win survives only when half the referee's questions are
+  unconstrained.
+- **A resource bound splits cleanly.** The ABM bound
+  p̄_F ≥ NCF·(n−k)/n is *exactly tight* at the quantum optimum for
+  every XOR family computed, and strictly loose for every non-XOR
+  family with quantum advantage — sixteen for sixteen. A two-line
+  strengthening of the bound, p̄_F ≥ NCF·(1−ω_c) + CF·(1−ω_ns),
+  explains the split (XOR games have ω_ns = 1) and is itself exactly
+  tight in 11 of the 16 cases. Whether the strengthened form is known,
+  and whether its saturation at XOR optima is provable, are the
+  project's open questions.
+- **The resource can outlive the advantage.** Under noise, the CHSH
+  and Mermin strategies lose their contextuality and their usefulness
+  at the same threshold (1 − 1/√2 and 1/2 respectively, recovering the
+  known visibilities) — but for one family there is a band of noise
+  rates in which the strategy remains certifiably contextual while no
+  longer beating classical play.
 
-Validated examples include:
+Epistemic status per finding (computed / certified / reproduction of
+known results / conjectured) is tracked explicitly in the overview
+document; several findings are expected to be rediscoveries and are
+claimed only as validation of the pipeline.
 
-- PR box;
-- Bell/CHSH table;
-- Tsirelson CHSH model;
-- GHZ-Mermin model;
-- noisy PR box.
+## Methodology in one line
 
-## Repository structure
+**No component is used until it reproduces literature values.** Every
+phase is gated on known anchors — the PR box, the Bell/CHSH tables, the
+Tsirelson bound, GHZ–Mermin, the standard noise visibilities — and the
+same checks form a 46-test regression suite. All data in `data/` is
+derivable from source: delete it and the scripts below rebuild every
+number and figure.
 
-```text
-contextual-games/
-├── src/contextual_games/     # Main Python package
-├── scripts/                  # Validation and execution scripts
-├── tests/                    # pytest tests
-├── data/                     # Generated catalogues and outputs
-├── notebooks/                # Exploratory notebooks
-└── docs/                     # Notes, roadmap, and validation records
-```
+## Install
 
-## Installation
-
-Create and activate a virtual environment:
+Requires Python 3.12+. The repository must live outside iCloud-synced
+folders (Documents/Desktop) — sync interferes with editable installs.
 
 ```bash
+git clone https://github.com/97wfinney/contextual-games.git
+cd contextual-games
 python3 -m venv .venv
-source .venv/bin/activate
+.venv/bin/pip install -e ".[dev]"
+.venv/bin/python -m pytest tests/ -q     # 46 passed = healthy
 ```
 
-Install the package in editable mode:
+## Run
+
+Validation gates (each asserts the known-value anchors for its phase):
 
 ```bash
-pip install -e ".[dev]"
+.venv/bin/python scripts/validate_phase0.py   # CF machinery
+.venv/bin/python scripts/validate_phase1.py   # game values
+.venv/bin/python scripts/validate_phase2.py   # enumeration & symmetry
+.venv/bin/python scripts/validate_phase3.py   # quantum bracket
+.venv/bin/python scripts/validate_phase4.py   # tightness & noise
 ```
 
-## Phase 0 validation
-
-Run:
+Full reproduction of all data and figures (~15 minutes; order matters):
 
 ```bash
-python scripts/validate_phase0.py
+.venv/bin/python scripts/build_catalogue.py           # classical/NS catalogues
+.venv/bin/python scripts/compute_quantum_values.py    # certified quantum values
+.venv/bin/python scripts/run_phase4.py                # tightness & noise analysis
+.venv/bin/python scripts/plot_noise.py                # the noise figure
 ```
 
-## Development notes
+## Layout
 
-This repository is being developed as research software for an MSc project on contextuality and non-local games.
+src/contextual_games/   cfraction · games · enumeration · quantum · analysis
+scripts/                validation gates and production runs
+tests/                  46-test regression suite
+data/                   generated catalogues (CSV) and figures
+docs/                   overview.pdf — the full write-up
 
-The emphasis is on:
+## References
 
-- correctness before scale;
-- validation against known examples;
-- reproducible computations;
-- clear separation between mathematical objects, optimisation routines, and generated catalogues.
-
-## Roadmap
-
-### Phase 0 — Infrastructure and validation
-
-Build and validate the basic sheaf-theoretic machinery:
-
-- scenarios;
-- empirical models;
-- incidence matrices;
-- contextual fraction LP;
-- Bell inequality dual.
-
-### Phase 1 — Classical and no-signalling values
-
-Implement non-local games and compute:
-
-- classical value;
-- no-signalling value;
-- validation on CHSH and GHZ games.
-
-### Phase 2 — Enumeration and symmetry reduction
-
-Enumerate small binary-outcome games and deduplicate up to symmetry equivalence.
-
-### Phase 3 — Quantum values
-
-Estimate quantum values using SDP relaxations, beginning with low-level NPA relaxations and XOR-game fallbacks.
-
-### Phase 4 — Analysis
-
-Study:
-
-- the landscape of quantum advantage;
-- tightness of contextual-fraction bounds;
-- degradation under depolarising noise.
-
-### Phase 5 — Write-up
-
-Produce the dissertation and, optionally, a browsable library of contextual games.
-
+- S. Abramsky, R. S. Barbosa, S. Mansfield, *Contextual fraction as a
+  measure of contextuality*, PRL 119, 050504 (2017); arXiv:1705.07918.
+- S. Abramsky, A. Brandenburger, *The sheaf-theoretic structure of
+  non-locality and contextuality*, NJP 13, 113036 (2011).
