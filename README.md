@@ -119,10 +119,14 @@ Full reproduction of all data and figures (~15 minutes; order matters):
 ## Layout
 
 src/contextual_games/   cfraction · games · enumeration · quantum · analysis
+
 scripts/                validation gates and production runs
+
 tests/                  46-test regression suite
+
 data/                   generated catalogues (CSV) and figures
-docs/                   overview.pdf — the full write-up
+
+docs/                   overview.pdf 
 
 ## References
 
