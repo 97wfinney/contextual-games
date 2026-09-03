@@ -7,9 +7,7 @@ question for non-local games, in the sheaf-theoretic framework of
 Abramsky–Brandenburger and the contextual fraction of Abramsky, Barbosa
 and Mansfield (arXiv:1705.07918).
 
-**The full write-up of methodology, findings, and open questions is in
-[`docs/overview.pdf`](docs/overview.pdf).** This README is the short
-version.
+A full write-up of the methodology, findings, and open questions is in preparation. This README is the short version.
 
 ## The idea
 
@@ -46,19 +44,17 @@ and solves the whole landscape at all three levels.
   game is the summit of the landscape.
 - **A game quantum mechanics declines to play.** One three-party XOR
   family has the maximal possible no-signalling gap (ω_c = 3/4,
-  ω_ns = 1) and certified ω_q = 3/4 exactly: no-signalling advantage
+  ω_ns = 1) and ω_q = 3/4 to solver precision, upper and lower bounds agreeing to 10⁻⁶: no-signalling advantage
   does not imply quantum advantage.
 - **Pseudo-telepathy needs unasked questions.** No fully-constrained
   three-party XOR game admits a perfect quantum strategy; the GHZ
   perfect win survives only when half the referee's questions are
   unconstrained.
 - **A resource bound splits cleanly.** The ABM bound
-  p̄_F ≥ NCF·(n−k)/n is *exactly tight* at the quantum optimum for
-  every XOR family computed, and strictly loose for every non-XOR
+  p̄_F ≥ NCF·(n−k)/n is is numerically tight (slack below 10⁻⁶) at the located quantum optimum for every XOR family computed, and strictly loose for every non-XOR
   family with quantum advantage — sixteen for sixteen. A two-line
   strengthening of the bound, p̄_F ≥ NCF·(1−ω_c) + CF·(1−ω_ns),
-  explains the split (XOR games have ω_ns = 1) and is itself exactly
-  tight in 11 of the 16 cases. Whether the strengthened form is known,
+  explains the split (XOR games have ω_ns = 1) and is itself numerically tight in 11 of the 16 cases. Whether the strengthened form is known,
   and whether its saturation at XOR optima is provable, are the
   project's open questions.
 - **The resource can outlive the advantage.** Under noise, the CHSH
@@ -84,8 +80,7 @@ number and figure.
 
 ## Install
 
-Requires Python 3.12+. The repository must live outside iCloud-synced
-folders (Documents/Desktop) — sync interferes with editable installs.
+Requires Python 3.12+. 
 
 ```bash
 git clone https://github.com/97wfinney/contextual-games.git
