@@ -6,7 +6,9 @@ This repository contains the computational work for an MSc research project in Q
 
 The project uses the sheaf-theoretic framework of Abramsky and Brandenburger and the contextual fraction introduced by Abramsky, Barbosa and Mansfield. It investigates small non-local games to understand when contextuality enables an advantage, how much contextuality a successful strategy requires, and how these relationships change under noise.
 
-**Status:** this is an ongoing research repository. The implementation has been checked against standard examples and includes a regression test suite. Numerical results, error handling and their mathematical interpretation are still being reviewed. A fuller written overview is in preparation.
+**Status:** this is an ongoing research repository. The implementation has been checked against standard examples and includes a regression test suite. Numerical results, error handling and their mathematical interpretation are still being reviewed.
+
+Read the [September 2026 research update (PDF)](docs/research_update.pdf) for the framework, current results and questions for further research.
 
 ## The research questions
 
@@ -219,8 +221,6 @@ scripts/               Validation and calculation entry points
 tests/                 Regression tests
 data/                  Saved numerical catalogues and figures
 ```
-
-A fuller written account of the framework, worked examples, results and open questions is in preparation.
 
 ## References
 
